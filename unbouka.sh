@@ -3,7 +3,7 @@
 #####################################################################
 # Split and crop PDFs that contain 2 slides per page                #
 # Usage:                                                            #
-#   $ ./unbouka.sh [input.pdf] [output.pdf]                         #
+#   $ ./unbouka.sh input.pdf output.pdf                             #
 # Dependencies:                                                     #
 #   - ImageMagick                                                   #
 #   - GhostScript                                                   #
@@ -22,13 +22,21 @@ SLIDE2_POSITION="+350+1203" # Position of top left corner, slide 2
 RESOLUTION=200              # Conversion resolution in dots/inch
 JPEG_FOLDER="/tmp/jpgs"
 CROPED_FOLDER="/tmp/pdfs"
-
+INPUT_FILE="$1"
+OUTPUT_FILE="$2"
 # Parameter validation
-if [ ! -f "$1" ] || [ -z "$2" ]; then
+if [ ! -f "$INPUT_FILE" ] || [ -z "$OUTPUT_FILE" ]; then
     echo "Unvalid parameters, exiting"
     exit 1
 fi
-
+if [ -f "$OUTPUT_FILE" ]; then
+    echo "Output file exists. Overwrite? ([Yy]/[Nn])"
+    read YN_ANSWER
+    if [[ $YN_ANSWER != "Y" && $YN_ANSWER != "y" && $YN_ANSWER != "" ]]; then
+        echo "Aborting!"
+        exit 1
+    fi
+fi
 mkdir -p "$JPEG_FOLDER" "$CROPED_FOLDER"
 COUNT=0
 echo "Converting $1"
