@@ -16,12 +16,18 @@
 # Date:     09/03/2019                                              #
 #####################################################################
 
-SLIDE_DIMENTIONS="1000x750"
-SLIDE1_POSITION="+350+246"
-SLIDE2_POSITION="+350+1203"
-RESOLUTION=200  # In dots/inch
+SLIDE_DIMENTIONS="1000x750" # Size of slide in pixels
+SLIDE1_POSITION="+350+246"  # Position of top left corner, slide 1
+SLIDE2_POSITION="+350+1203" # Position of top left corner, slide 2
+RESOLUTION=200              # Conversion resolution in dots/inch
 JPEG_FOLDER="/tmp/jpgs"
 CROPED_FOLDER="/tmp/pdfs"
+
+# Parameter validation
+if [ ! -f "$1" ] || [ -z "$2" ]; then
+    echo "Unvalid parameters, exiting"
+    exit 1
+fi
 
 mkdir -p "$JPEG_FOLDER" "$CROPED_FOLDER"
 COUNT=0
